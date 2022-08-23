@@ -1,0 +1,66 @@
+
+CREATE DATABASE arqueolog;
+USE arqueolog;
+
+CREATE TABLE clientes (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR (90) NOT NULL,
+cnpj VARCHAR (14) NOT NULL,
+email VARCHAR (50) NOT NULL,
+endereco VARCHAR (100),
+telefone VARCHAR (40) NOT NULL,
+data_cadastro DATE 
+);
+
+CREATE TABLE projetos (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR (150) NOT NULL,
+data_inicio DATE NOT NULL,
+data_conclusao DATE,
+status VARCHAR (45) NOT NULL,
+cliente_id INT NOT NULL,
+FOREIGN KEY (cliente_id) REFERENCES clientes (id)
+);
+
+CREATE TABLE funcionarios (
+idFuncionarios INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR (90) NOT NULL,
+funcao VARCHAR (40),
+email VARCHAR (50) NOT NULL,
+telefone VARCHAR (40) NOT NULL,
+projeto_id INT NOT NULL,
+FOREIGN KEY (projeto_id) REFERENCES projetos (id)
+);
+
+CREATE TABLE sitios (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR (90) NOT NULL,
+localizacao VARCHAR (240) NOT NULL,
+data_inicio DATE NOT NULL,
+data_intervencao MEDIUMTEXT,
+data_conclusao DATE,
+projeto_id INT NOT NULL,
+FOREIGN KEY (projeto_id) REFERENCES projetos (id)
+);
+
+CREATE TABLE catalogos (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+numero_catalogo VARCHAR (30) NOT NULL,
+tipologia VARCHAR (30) NOT NULL,
+status VARCHAR (20) NOT NULL,
+local_endosso VARCHAR (200),
+sitio_id INT NOT NULL,
+FOREIGN KEY (sitio_id) REFERENCES sitios (id)
+);
+
+CREATE TABLE caixas (
+id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+numero_caixa INT NOT NULL
+);
+
+CREATE TABLE caixas_catalogo (
+caixa_id INT NOT NULL,
+catalogo_id INT NOT NULL,
+FOREIGN KEY (caixa_id) REFERENCES caixas (id),
+FOREIGN KEY (catalogo_id) REFERENCES catalogos (id)
+);

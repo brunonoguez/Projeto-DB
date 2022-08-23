@@ -87,7 +87,7 @@ INSERT INTO caixas (numero_caixa) VALUES ('7');
 
 SELECT * FROM caixas;
 
-/*CAIXAS_CATAOLOGO*/
+/*CAIXAS_CATALOGO*/
 INSERT INTO caixas_catalogo (caixa_id, catalogo_id) VALUES ('1','1');
 INSERT INTO caixas_catalogo (caixa_id, catalogo_id) VALUES ('2','1');
 INSERT INTO caixas_catalogo (caixa_id, catalogo_id) VALUES ('3','1');

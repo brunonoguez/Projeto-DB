@@ -1,0 +1,71 @@
+USE arqueolog;
+
+/* Procedimento para buscar cliente*/
+
+DELIMITER //
+CREATE PROCEDURE buscar_cliente (idcliente INT, OUT cliente VARCHAR(90))
+BEGIN
+    SELECT nome INTO cliente
+        FROM clientes
+    WHERE idcliente = id;
+END//
+DELIMITER ;
+
+SELECT * FROM clientes;
+
+CALL buscar_cliente (7, @nome_do_cliente);
+SELECT @nome_do_cliente;
+
+/* Procedimento para incluir novo cliente */
+
+DELIMITER //
+CREATE PROCEDURE insereCliente (IN cliente VARCHAR (90), IN cnpj VARCHAR (14), IN email VARCHAR (50), IN endereco VARCHAR (100), IN tel VARCHAR (40))
+	BEGIN
+    INSERT INTO clientes (nome, cnpj, email, endereco, telefone, data_cadastro)
+VALUES (cliente, cnpj, email, endereco, tel, NOW());
+END //
+DELIMITER ;
+
+CALL insereCliente ('Eva Adanis', '00011000987612', 'Rua do Éden, Ap 202 Bloco D', '041981767675', '2022-09-10');
+	SELECT * FROM clientes;
+    
+/* Procedimento para incluir novo funcionário ou atualizar antigo */
+
+DELIMITER //
+CREATE PROCEDURE addFuncionario (IN acao INT, codigo INT, -- acao { 1 = Insert, 2 = Update, 3 = select all
+nome VARCHAR (90), IN funcao VARCHAR (40),  
+IN email VARCHAR (50), IN tel VARCHAR (40), IN projeto INT)
+	BEGIN
+    
+IF acao =1 THEN  -- criando uma condição para inserção 
+INSERT INTO funcionarios (nome, funcao, email, telefone, projeto_id)
+VALUES (nome, funcao, email, tel, projeto_id);
+
+	ELSE IF acao =2 THEN -- criando uma condição para atulização, onde o codigo informado é referente ao id do funcionario previamente cadastrado
+	UPDATE funcionarios
+SET idFuncionarios = codigo, nome = nome, funcao = funcao, email = email, telefone = tel, projeto_id = projeto_id;
+ELSE
+SELECT * FROM funcionarios;
+END IF;
+	END IF;
+END //
+DELIMITER ;
+
+SET foreign_key_checks=0;
+CALL addFuncionario (1, 0,'Prometheus Nave', 'campo', 'prometheus@hotmail.com', '53981779050','5');
+	SELECT * FROM funcionarios;
+    
+    CALL addFuncionario (0, 0, 'Victor Turner', 'redação', 'Turnerfinance@gmail.com', '44981786701', '2');
+    
+
+/* criando um trigger para projetos */
+DELIMITER //
+CREATE TRIGGER concluir AFTER INSERT
+ON projetos
+FOR EACH ROW
+BEGIN
+    UPDATE projetos
+    SET status = 'concluído'
+    WHERE data_conclusao = NEW.data_conclusao;
+END//
+DELIMITER ;

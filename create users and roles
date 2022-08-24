@@ -1,0 +1,49 @@
+USE arqueolog;
+
+CREATE USER 'cleo_thea'@'localhost' IDENTIFIED BY 'arq123';
+CREATE ROLE 'curadoria';
+
+GRANT SELECT ON arqueolog.projetos TO 'curadoria';
+GRANT SELECT ON arqueolog.sitios TO 'curadoria';
+GRANT SELECT, UPDATE, INSERT ON arqueolog.catalogos TO 'curadoria';
+GRANT SELECT, UPDATE, INSERT ON arqueolog.caixas TO 'curadoria';
+FLUSH PRIVILEGES;
+
+GRANT 'curadoria' TO 'cleo_thea'@'localhost';
+
+FLUSH PRIVILEGES;
+
+-- new role and user
+CREATE USER 'lara_croft'@'localhost' IDENTIFIED BY 'campo123'; -- user created and identified by name and password
+CREATE USER 'indiana'@'localhost' IDENTIFIED BY 'campo321';
+
+CREATE ROLE 'campo_user'; -- role created to grant privileges
+
+GRANT SELECT, INSERT, UPDATE ON arqueolog.projetos TO 'campo_user';  -- grant privileges to a role
+GRANT SELECT, INSERT, UPDATE ON arqueolog.sitios TO 'campo_user';
+GRANT SELECT, INSERT, UPDATE ON arqueolog.catalogos TO 'campo_user';
+GRANT SELECT, INSERT, UPDATE ON arqueolog.caixas TO 'campo_user';
+
+FLUSH PRIVILEGES; 
+
+GRANT 'campo_user' TO 'lara_croft'@'localhost';
+GRANT 'campo_user' TO 'indiana'@'localhost';
+
+FLUSH PRIVILEGES;
+
+--
+CREATE USER 'marco_polo'@'localhost' IDENTIFIED BY 'red123';
+CREATE ROLE 'redacao';
+
+GRANT SELECT ON arqueolog.projetos TO 'redacao';
+GRANT SELECT ON arqueolog.sitios TO 'redacao';
+GRANT SELECT ON arqueolog.catalogos TO 'redacao';
+
+FLUSH PRIVILEGES;
+
+GRANT 'redacao' TO 'marco_polo'@'localhost';
+
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'lara_croft'@'localhost';
+	SELECT * FROM mysql.user;

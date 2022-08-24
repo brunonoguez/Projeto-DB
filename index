@@ -1,0 +1,9 @@
+USE arqueolog;
+
+CREATE INDEX idx_cnpj ON arqueolog.clientes (nome, cnpj);
+
+CREATE INDEX idx_projetos ON arqueolog.projetos (nome, data_conclusao);
+
+
+SELECT * FROM clientes;
+EXPLAIN SELECT * FROM clientes WHERE nome LIKE 'E%' AND CNPJ LIKE '1%';

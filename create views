@@ -1,0 +1,17 @@
+USE arqueolog;
+
+CREATE VIEW responsaveisProjeto AS
+SELECT P.nome AS projeto, F.projeto_id, P.status, F.nome AS responsavel FROM projetos AS P 
+	INNER JOIN funcionarios AS F ON (F.projeto_id=P.id);
+    SELECT * FROM responsaveisProjeto;
+    
+CREATE VIEW catalogoSitio AS
+SELECT S.nome AS sitio, C.numero_catalogo, C.status, C.local_endosso FROM sitios AS S
+	INNER JOIN catalogos AS C ON (S.id=C.sitio_id);
+    SELECT * FROM catalogoSitio;
+    
+CREATE VIEW statusProjetos AS
+SELECT C.nome AS cliente, C.telefone, C.data_cadastro, P.nome AS projeto, P.data_conclusao, P.status FROM clientes
+AS C INNER JOIN projetos as P ON (C.id=P.cliente_id) WHERE status = 'concluído'
+	ORDER BY C.nome;
+    SELECT * FROM statusProjetos;
